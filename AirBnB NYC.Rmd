@@ -1,0 +1,61 @@
+---
+title: "AirBnB NYC"
+author: "Noel Moon"
+date: "8/20/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Main question: What factors contribute to the "popularity" of a rental listing?
+
+Significance: By knowing what factors contribute to the popularity of a listing, airbnb owners can focus more on crucial factors. For example, it is likely that the price will have a significant influence on a listing's popularity.
+
+```{r, include=FALSE}
+library(statsr)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+airbnb <- read.csv("~/Google Drive/Data Science/Practice/AirBnB/airbnb.csv", header=TRUE)
+names(airbnb)
+```
+  This dataset is all airbnb listings in NYC in 2019. I was interested in seeing what factors contribute to the "popularity" of a rental listing. The popularity of a listing can be defined in several ways such as the number of rental requests it gets or the positivity of its reviews. Unfortunately this dataset does not have information on either of those metrics, but it does contain the number of reviews for a listing. 
+  
+  The number of reviews will be as a measure of the popularity of the listing. I believe this metric will be closely related to the number of times a listing has been rented out. Some shortcomings of using the number of reviews is that some people don't post a review after renting a listing, and the reviews could be largely negative.
+
+### How are the number of reviews distributed?
+```{r}
+ggplot(airbnb, aes(x = number_of_reviews)) + geom_histogram(bins = 20)
+```
+
+This graph shows that a large majority of listings have very few reviews. The graph is skewed right, which suggests that there are a small number of listings with very many reviews. 
+
+### How does price affect number of reviews?
+I was specifically interested in how price affects number of reviews because price is something that the host can change more easily than another factor like location or type of room.
+
+```{r}
+ggplot(airbnb, aes(x = price, y = number_of_reviews)) + geom_point()
+```
+
+This scatter plot shows that as price increases, number of reviews goes down. It is worth noting that having fewer reviews is not necessarily a bad result. A luxury listing may have fewer rentals, but its higher price can lead to a higher margin. For the sake of this analysis, however, we will assume that more reviews is generally better for business than having fewer reviews. If you consider a product on Amazon, it can be argued that having a 4 star average with 1,000 reviews is better than having a 5 star rating with only 5 reviews. 
+
+The relationship does not appear to be clearly linear, and a log transformation may be appropriate for the model.
+
+
+
+
+
+
+
+
+
+
+
+
+
